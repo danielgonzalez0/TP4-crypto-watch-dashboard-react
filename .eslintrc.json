@@ -1,0 +1,22 @@
+{
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "extends": ["eslint:recommended", "plugin:react/recommended"],
+  "overrides": [],
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module"
+  },
+  "plugins": ["react"],
+  "rules": {
+    //   "no-unused-vars": "off" //turn it into on if you want have an error if variables declared but not used
+  },
+
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  }
+}
