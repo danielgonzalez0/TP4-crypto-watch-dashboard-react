@@ -11,7 +11,7 @@
   },
   "plugins": ["react"],
   "rules": {
-    //   "no-unused-vars": "off" //turn it into on if you want have an error if variables declared but not used
+    "no-unused-vars": "off" //turn it into on if you want have an error if variables declared but not used
   },
 
   "settings": {
