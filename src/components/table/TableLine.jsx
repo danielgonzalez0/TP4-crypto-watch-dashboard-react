@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import PercentChange from '../utils/PercentChange';
+import StarIcon from '../favorites/StarIcon';
 
 const TableLine = ({ coin, index }) => {
   /**
@@ -31,7 +32,7 @@ const TableLine = ({ coin, index }) => {
   return (
     <div className="table-line">
       <div className="infos-container">
-        <span>*</span>
+        <StarIcon coinId={coin.id}/>
         <p>{index + 1}</p>
         <div className="img">
           <img src={coin.image} alt={coin.name + ' logo'} height={20} />

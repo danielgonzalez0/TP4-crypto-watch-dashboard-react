@@ -1,4 +1,5 @@
 import React from 'react';
+import starFullIcon from '../favorites/star-full.svg'
 
 const TableFilters = () => {
   return (
@@ -13,7 +14,7 @@ const TableFilters = () => {
         </div>
         <div className="fav-list">
           <p>Liste des favoris</p>
-          <img src="./star-full.svg" alt="icon star" />
+          <img src={starFullIcon} alt="icon star" />
         </div>
       </div>
     </div>
