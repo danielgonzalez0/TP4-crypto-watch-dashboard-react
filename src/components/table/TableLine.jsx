@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import PercentChange from '../utils/PercentChange';
 import StarIcon from '../favorites/StarIcon';
+import CoinCharts from '../coinCharts/CoinCharts';
 
 const TableLine = ({ coin, index }) => {
+  const [showChart, setShowChart] = useState(false);
+
   /**
    * format for decimal number with min and max decimal digits
    * @param {Number} number
@@ -32,14 +35,21 @@ const TableLine = ({ coin, index }) => {
   return (
     <div className="table-line">
       <div className="infos-container">
-        <StarIcon coinId={coin.id}/>
+        <StarIcon coinId={coin.id} />
         <p>{index + 1}</p>
         <div className="img">
           <img src={coin.image} alt={coin.name + ' logo'} height={20} />
         </div>
         <div className="infos">
-          <div className="chart-img">
+          <div
+            className="chart-img"
+            onMouseEnter={() => setShowChart(true)}
+            onMouseLeave={() => setShowChart(false)}
+          >
             <img src="./chart-icon.svg" alt="chart-icon" />
+            <div className="chart-container" id={coin.name}>
+              {showChart && <CoinCharts coinId={coin.id} coinName = {coin.name}/>}
+            </div>
           </div>
           <h4>{coin.name}</h4>
           <span>- {coin.symbol.toUpperCase()}</span>
@@ -67,7 +77,11 @@ const TableLine = ({ coin, index }) => {
       <PercentChange percent={coin.price_change_percentage_30d_in_currency} />
       <PercentChange percent={coin.price_change_percentage_200d_in_currency} />
       <PercentChange percent={coin.price_change_percentage_1y_in_currency} />
-      {coin.ath_change_percentage > -3 ? (<p>ATH ! </p>) :(<PercentChange percent={coin.ath_change_percentage} />)}
+      {coin.ath_change_percentage > -3 ? (
+        <p>ATH ! </p>
+      ) : (
+        <PercentChange percent={coin.ath_change_percentage} />
+      )}
     </div>
   );
 };
