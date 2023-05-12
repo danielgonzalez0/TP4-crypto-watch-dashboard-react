@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import HeaderInfos from './components/header/HeaderInfos';
 import GlobalChart from './components/header/GlobalChart';
 import axios from 'axios';
+import Table from './components/table/Table';
+import ToTop from './components/utils/ToTop';
 
 const App = () => {
   const [coinsData, setCoinsData] = useState([]);
@@ -22,16 +24,24 @@ const App = () => {
         setIsloading(false);
       })
       .catch((error) => console.log(error));
+
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 145) {
+        document.querySelector('.table-header').classList.add('active');
+      } else {
+        document.querySelector('.table-header').classList.remove('active');
+      }
+    });
   }, []);
 
   return (
-    <div>
-      <div className="app-container">
-        <header>
-          <HeaderInfos />
-          {!isLoading && <GlobalChart coinsData={coinsData} />}
-        </header>
-      </div>
+    <div className="app-container">
+      <header>
+        <HeaderInfos />
+        {!isLoading && <GlobalChart coinsData={coinsData} />}
+      </header>
+      {!isLoading && <Table coinsData={coinsData} />}
+      <ToTop />
     </div>
   );
 };
