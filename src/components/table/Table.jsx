@@ -2,11 +2,14 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import TableLine from './TableLine';
 import ToTop from '../utils/ToTop';
+import { useSelector } from 'react-redux';
+import { isStableCoin } from '../utils/Utils';
 
 const Table = ({ coinsData }) => {
   //variables
   const [rangeNumber, setRangeNumber] = useState(100);
   const [orderBy, setOrderBy] = useState('');
+  const showStable = useSelector((state) => state.stableReducer.showStable);
   const tableHeader = [
     'Price',
     'MarketCap',
@@ -68,6 +71,15 @@ const Table = ({ coinsData }) => {
       {coinsData &&
         coinsData
           .slice(0, rangeNumber)
+          .filter((coin) => {
+            if (showStable) {
+              return coin;
+            } else {
+              if (isStableCoin(coin.symbol)) {
+                return coin;
+              }
+            }
+          })
           .sort((a, b) => {
             switch (orderBy) {
               case 'Price':

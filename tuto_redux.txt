@@ -1,0 +1,188 @@
+
+******************************************************************
+* Fonctionnement de redux avant cours (projet crypto-dashboard)  *
+*                                                                *
+******************************************************************
+
+Pourquoi implémenter redux dans projet crypto-dashboard
+les 2 composants table-filter et table ne sont pas liés, ils ne sont pas parents et on aura besoin que le tableau se mette à jour si on clique sur un des filtres.
+
+pour cela redux peut nous aider en créant un store (magasin de stockage) tout en haut de notre application qui va stocker ici 2 informations à savoir: 
+est-ce qu’on affiche ou non les stables coin
+est-ce qu’on veut la liste des favories
+On va créer 2 reducers qui vont contenir ses infos qui seront mis à jour avec l’utilisation des filtres par l’utilisateur. Et tous les composants de l’application pourront piocher cette info dans le store.
+
+--------------------
+installation plugin 
+--------------------
+
+- redux 
+- react-redux
+- @reduxjs/toolkit
+- @redux-devtools/extension
+
+ligne de commande: npm i -s redux react-redux @reduxjs/toolkit @redux-devtools/extension
+
+si pas installez => installer sur chrome l'extension redux-devtools
+(https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd)
+
+---------------------------------------------------
+création du store le plus haut possible dans appli
+---------------------------------------------------
+
+1) dans index.js => englober app dans composant Provider importé de react-redux
+2) ajouter l'élément store à Provider et définir la variable store avec configureStore de la bibliothèque @reduxjs/toolkit
+3) ajouter des paramètres sous forme d'objet dans configureStore => ici il aura un reducer et devtools = true pour pouvoir utiliser l'extension su chrome
+
+
+reducer => seul élément qui peut donner des infos au store => il faut passer par le reducer pour modifier le store
+
+------------------------------------------------------------------------------
+//redux
+import { Provider } from 'react-redux';
+import {configureStore} from "@reduxjs/toolkit"
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+const store = configureStore({
+  reducer: rootReducer, 
+  devTools: true
+})
+
+
+root.render(
+  <React.StrictMode>
+    <Provider store={store}>
+      <App />
+    </Provider>
+  </React.StrictMode>
+);
+------------------------------------------------------------------------------
+
+appli ne connait pas notre reducer. Il faut maintenant créer rootReducer
+
+-----------------------------------------------
+création de l’index pour exporter les reducers
+------------------------------------------------
+dans src => créer file reducer + créer index.js
+créer l’index.js pour importer tous les reducers que l’on créera 
+dans index.js utiliser combineReducers from redux pour créer l’indexation des reducers
+
+------------------------------------------------------------------------------
+import { combineReducers } from "redux";
+//conbineReducers from redux is used to index all the reducers created
+export default combineReducers ({
+//reducers
+})
+------------------------------------------------------------------------------
+
+
+---------------------
+création du reducer
+---------------------
+
+1) dans src/reducer créer le reducer => stable.reducer.js
+2) initialiser le reducer avec un state par défault (souvent {} vide mais ici de base sur false)
+3) créer le reducer (fonction) avec 2 paramètres: 
+- le state initial 
+- l'action qui servira à mettre à jour le reducer
+-------------------------------------------------------------------------------
+const initialeState = { showStable: true };
+
+export default function stableReducer(state = initialeState, action) {
+  return state;
+}
+-------------------------------------------------------------------------------
+
+
+--------------------------------------------------
+création de l'action pour mettre a jour le reducer
+--------------------------------------------------
+1) dans src créer un dossier action
+2) créer un fichier js action pour un reducer => ici stable.action.js
+3) definir le nom de l'action dans une const (=type)
+4) créer l'action (fonction)
+
+
+
+--------------------------------------------------------------------------------
+export const SET_STABLE_STATE = 'SET_STABLE_STATE';
+
+/**
+ * this action will handle the setting of the reducer stable
+ * @param {boolean} bool
+ */
+export const setStableState = (bool) => {
+  return (dispatch) => {
+    return dispatch({ type: SET_STABLE_STATE, payload: bool });
+  };
+};
+
+//type = nom de l'action que va recevoir le reducer
+//payload = data contenu dans l'action 
+-----------------------------------------------------------------------------------
+
+--------------------------------------------------------------------
+mettre en place l'action dans le reducer avec un switch(action.type)
+--------------------------------------------------------------------
+
+permet de définir les cas ou reducer recoit une action et ce qu'il doit faire 
+
+
+dans stable.reducer
+-----------------------------------------------------------------------------------------------
+import { SET_STABLE_STATE } from '../action/stable.action';
+
+const initialeState = { showStable: true };
+
+export default function stableReducer(state = initialeState, action) {
+  switch (action.type) {
+    case SET_STABLE_STATE:
+      return {
+        showStable: action.payload,
+      };
+    default:
+      return state;
+  }
+}
+------------------------------------------------------------------------------------------------
+
+--------------------------------------------------------------------
+mettre en place evenement qui declanche action
+--------------------------------------------------------------------
+ici dans tablefilter.js
+1) on met en place un state qui prend true ou false et un event pour que le state change
+------------------------------------------------------------------------------
+  const [showStable, setShowStable] = useState(true);
+
+
+          <input
+            type="checkbox"
+            id="stableCoin"
+            defaultChecked={true}
+            onChange={() => setShowStable(!showStable)}
+          />
+-------------------------------------------------------------------------------
+2) on utilise un hook useDispatch pour dispatcher une action => envoie les actions
+
+import { useDispatch } from 'react-redux';
+import { setStableState } from '../../action/stable.action';
+
+const TableFilters = () => {
+  const [showStable, setShowStable] = useState(true);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(setStableState(showStable));
+  }, [showStable]);
+
+3) on utilise un hook useSelector pour récupérer ce qui il y a dans le store via le reducer
+
+ici on veut récuperer la donnée dans table.js
+
+import { useSelector } from 'react-redux';
+
+const Table = ({ coinsData }) => {
+  //variables
+  const [rangeNumber, setRangeNumber] = useState(100);
+  const [orderBy, setOrderBy] = useState('');
+  const showStable = useSelector((state)=> state.stableReducer.showStable)
