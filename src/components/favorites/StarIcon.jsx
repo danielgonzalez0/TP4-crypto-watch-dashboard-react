@@ -16,10 +16,11 @@ const StarIcon = ({ coinId }) => {
       let favList = window.localStorage.coinList.split(',');
       if (favList.includes(coinId)) {
         setLike(true);
+      } else {
+        setLike(false);
       }
     }
-  }, []);
-
+  }, [coinId]);
 
   /**
    * handle store coin id in localStorage and like in state

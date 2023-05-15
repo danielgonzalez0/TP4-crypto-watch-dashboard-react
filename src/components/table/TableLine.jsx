@@ -48,7 +48,9 @@ const TableLine = ({ coin, index }) => {
           >
             <img src="./chart-icon.svg" alt="chart-icon" />
             <div className="chart-container" id={coin.name}>
-              {showChart && <CoinCharts coinId={coin.id} coinName = {coin.name}/>}
+              {showChart && (
+                <CoinCharts coinId={coin.id} coinName={coin.name} />
+              )}
             </div>
           </div>
           <h4>{coin.name}</h4>
@@ -56,11 +58,7 @@ const TableLine = ({ coin, index }) => {
           <a
             target="_blank"
             rel="noreferrer"
-            href={`https://www.coingecko.com/fr/pi%C3%A8ces/${coin.name
-              .toLowerCase()
-              .replace(' ', '-')
-              .replace(' ', '-')
-              .replace(' ', '-')}`}
+            href={`https://www.coingecko.com/fr/pi%C3%A8ces/${coin.id.toLowerCase()}`}
           >
             <img src="./info-icon.svg" alt="info-icon" />
           </a>
