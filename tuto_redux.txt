@@ -16,10 +16,10 @@ On va créer 2 reducers qui vont contenir ses infos qui seront mis à jour avec 
 installation plugin 
 --------------------
 
-- redux 
-- react-redux
-- @reduxjs/toolkit
-- @redux-devtools/extension
+- redux  => librairie de base 
+- @reduxjs/toolkit => couche supplémentaire pour faciliter la mise en place de redux
+- react-redux => librairie pour adapter redux à react
+- @redux-devtools/extension => librairie pour pouvoir utiliser extension devtools
 
 ligne de commande: npm i -s redux react-redux @reduxjs/toolkit @redux-devtools/extension
 
