@@ -77,12 +77,12 @@ https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_
 
 #### Coin price chart : 
 ```http
-https://api.coingecko.com/api/v3/coins/${coinId}/market_chart?vs_currency=usd&days=${duration}${duration > 32 ? "&interval=daily" : ""}
+https://api.coingecko.com/api/v3/coins/${coinId}/market_chart?vs_currency=usd&days=${duration}${duration > 32 ? "&interval=daily"
 ```
 
 #### Coingecko : 
 ```http
-https://www.coingecko.com/fr/pi%C3%A8ces/
+https://www.coingecko.com/fr/pi%C3%A8ces
 ```
 ## Screenshots
 
@@ -111,6 +111,6 @@ This training has allowed me to specialize in front-end development, using a hig
 
 Before that, I completed an initial training program in web development, where I gained a foundation in programming (HTML, CSS, JS) for both front-end and back-end development. I worked on aspects such as web integration, creating APIs and databases, accessibility, SEO, and more.
 
-Here is my portfolio, feel free to visit it to see my latest projects `:smile:`
+Here is my portfolio, feel free to visit it to see my latest projects :smile:
 
 [www.gonzalez-daniel.com/](https://www.gonzalez-daniel.com/)
